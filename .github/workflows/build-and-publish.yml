@@ -22,6 +22,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   upload_game:
     runs-on: ubuntu-latest
+    environment: production
     name: Publish Game
     needs: [build_game]
     steps:
