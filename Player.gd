@@ -7,7 +7,7 @@ signal hit
 
 func _ready():
 	screen_size = get_viewport_rect().size
-	position = screen_size/2
+	hide()
 	
 
 func _process(delta):
