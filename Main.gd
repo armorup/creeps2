@@ -3,14 +3,11 @@ extends Node
 export (PackedScene) var mob_scene
 var score
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
+	$Music.play()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -22,7 +19,8 @@ func game_over():
 	$ScoreTimer.stop()
 	$MobTimer.stop()
 	$HUD.show_game_over()
-		
+	$Music.stop()
+	$DeathSound.play()
 
 func new_game():
 	score = 0
@@ -31,6 +29,8 @@ func new_game():
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 	get_tree().call_group("mobs", "queue_free")
+	if not $Music.playing:
+		$Music.play()
 		
 
 func _on_StartTimer_timeout():
