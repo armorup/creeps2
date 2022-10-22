@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+    paths-ignore: # do not build for game-irrelvant changes
+      - '.**'
+      - 'LICENSE'
+      - 'ACKNOWLEDGEMENTS'
+      - '**.md'
 
 jobs:
   build_game:
@@ -30,9 +35,9 @@ jobs:
         id: download-html
         uses: dsaltares/fetch-gh-release-asset@master
         with:
-          version: "latest"
+          version: 'latest'
           file: HTML5.zip
-          token: "${{ secrets.GITHUB_TOKEN }}"
+          token: '${{ secrets.GITHUB_TOKEN }}'
       - name: deploy to itch.io
         uses: josephbmanley/butler-publish-itchio-action@master
         env:
