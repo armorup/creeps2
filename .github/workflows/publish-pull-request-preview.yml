@@ -9,7 +9,7 @@ name: Test and Deploy PRs
 
 on:
   workflow_run:
-    workflows: ['Build PR']
+    workflows: [Build PR]
     types:
       - completed
 
@@ -80,3 +80,4 @@ jobs:
               issue_number: issue_number,
               body: 'Please view and test your changes at this site: 👉 ${{steps.netlify-deploy.outputs.deploy-url}} 👈'
             });
+
