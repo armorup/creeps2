@@ -1,7 +1,7 @@
 # This workflow takes a previously-built PR copy of the game
 # and uploads it to Netlify as a preview deployment,
 # also dropping a link to that deploy into the PR comments
-# 
+#
 # See https://securitylab.github.com/research/github-actions-preventing-pwn-requests
 # for context why this is two workflows instead of one.
 
@@ -9,7 +9,7 @@ name: Test and Deploy PRs
 
 on:
   workflow_run:
-    workflows: ["Build PR"]
+    workflows: ['Build PR']
     types:
       - completed
 
@@ -55,15 +55,14 @@ jobs:
           PR_ACTION=$(cat pr_action)
           echo "PR_ACTION=$PR_ACTION" >> $GITHUB_ENV
           rm pr_action
-      
+
       - name: Netlify preview deploy
         uses: nwtgck/actions-netlify@v1.2
-        environment: production
         id: netlify-deploy
         with:
           publish-dir: '.'
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message: "Test your proposed changes!"
+          deploy-message: 'Test your proposed changes!'
           alias: pr-${{ env.PR_NUMBER }}
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
@@ -81,4 +80,3 @@ jobs:
               issue_number: issue_number,
               body: 'Please view and test your changes at this site: 👉 ${{steps.netlify-deploy.outputs.deploy-url}} 👈'
             });
-    
