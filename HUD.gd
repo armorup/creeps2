@@ -35,5 +35,7 @@ func _on_StartButton_pressed():
 	
 
 func _unhandled_input(event):
+	# Allow starting game by pressing enter or space
 	if $StartButton.visible and event.is_action("ui_accept"):
 		_on_StartButton_pressed()
+	

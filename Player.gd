@@ -1,26 +1,43 @@
 extends Area2D
 
 export var speed = 400
+
 var screen_size
+
+var velocity = Vector2.ZERO
+
+var touch_target = null
+
+var is_active
+
 signal hit
 
 
 func _ready():
 	screen_size = get_viewport_rect().size
+	is_active = false
 	hide()
 	
 
 func _process(delta):
-	var velocity = Vector2.ZERO
+	if(!is_active):
+		return
+	var keyVelocity = Vector2.ZERO
 	if Input.is_action_pressed("ui_right"):
-		velocity.x += 1
+		keyVelocity.x += 1
 	if Input.is_action_pressed("ui_left"):
-		velocity.x -= 1
+		keyVelocity.x -= 1
 	if Input.is_action_pressed("ui_up"):
-		velocity.y -= 1
+		keyVelocity.y -= 1
 	if Input.is_action_pressed("ui_down"):
-		velocity.y += 1
-	
+		keyVelocity.y += 1
+	if keyVelocity.length() > 0:
+		velocity = keyVelocity
+
+	if touch_target != null and position.distance_to(touch_target) < 5:
+		touch_target = null
+		velocity = Vector2.ZERO
+
 	if velocity.length() > 0:
 		velocity = velocity.normalized() * speed
 		$AnimatedSprite.play()
@@ -43,6 +60,9 @@ func _process(delta):
 func _on_Player_body_entered(_body):
 	hide()
 	emit_signal("hit")
+	is_active = false
+	velocity = Vector2.ZERO
+	$AnimatedSprite.stop()
 	$CollisionShape2D.set_deferred("disabled", true)
 
 
@@ -50,3 +70,20 @@ func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
+
+
+func _input(event):
+	if(!is_active):
+		return
+	
+	if event is InputEventScreenTouch and event.pressed:
+			touch_target = event.position
+			velocity = touch_target - position
+	
+	if event is InputEventScreenDrag:
+			touch_target = event.position
+			velocity = touch_target - position
+
+
+func _on_Main_activate_player():
+	is_active = true
