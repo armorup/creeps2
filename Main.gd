@@ -22,6 +22,7 @@ func game_over():
 	$Music.stop()
 	$DeathSound.play()
 
+
 func new_game():
 	score = 0
 	$HUD.update_score(score)
