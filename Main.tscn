@@ -19,6 +19,7 @@ mob_scene = ExtResource( 3 )
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 216, 336 )
 color = Color( 0.556863, 0.32549, 0.32549, 1 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
@@ -50,6 +51,7 @@ stream = ExtResource( 6 )
 [node name="DeathSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 
+[connection signal="activate_player" from="." to="Player" method="_on_Main_activate_player"]
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]

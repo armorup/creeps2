@@ -1,6 +1,9 @@
 extends Node
 
 export (PackedScene) var mob_scene
+
+signal activate_player
+
 var score
 
 
@@ -22,6 +25,7 @@ func game_over():
 	$Music.stop()
 	$DeathSound.play()
 
+
 func new_game():
 	score = 0
 	$HUD.update_score(score)
@@ -36,6 +40,7 @@ func new_game():
 func _on_StartTimer_timeout():
 	$MobTimer.start()
 	$ScoreTimer.start()
+	emit_signal("activate_player")
 
 
 func _on_ScoreTimer_timeout():
